@@ -7,13 +7,13 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import useStyles from './styles';
 
 const Map = () => {
-    const matches = useMediaQuery('(min-width:600px)');
+    const matches = useMediaQuery('(min-width:600px)'); //AIzaSyBjJqWPnsdSEnFRNNeTHDlXqdn-HCXg1TA
     const classes = useStyles();
-    const cords = {lat:10,lng:10};
+    const cords = {lat:0,lng:0};
   return (
     <div className={classes.mapContainer}>
         <GoogleMapReact
-        bootstrapURLKeys={{key:'AIzaSyBjJqWPnsdSEnFRNNeTHDlXqdn-HCXg1TA',language: 'en'}}
+        bootstrapURLKeys={{key:'AIzaSyCfCV8FrfOQJSMpFaYFbeGX9F-AOxQx3xQ',language: 'en'}}
         defaultCenter={cords}
         center={cords}
         defaultZoom={14}
