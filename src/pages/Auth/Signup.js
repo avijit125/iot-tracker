@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useStyles from './styles';
 import Input from './Input';
+import { createUser, getUser } from '../../features/AuthSlice';
 
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
@@ -12,6 +15,7 @@ const initialState = { firstName: '', lastName: '', email: '', password: '', con
 export default function SignUp() {
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -21,9 +25,16 @@ export default function SignUp() {
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(form);
+    // console.log(form);
+    if(isSignup){
+      dispatch(createUser(form))
+      setForm(initialState)
+      toast("please wait for Admin's confirmation")
+    }else{
+      dispatch(getUser(form))
+    }
   };
 
   
@@ -51,7 +62,7 @@ export default function SignUp() {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             { isSignup ? 'Sign Up' : 'Sign In' }
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
                 { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
@@ -60,6 +71,17 @@ export default function SignUp() {
           </Grid>
         </form>
       </Paper>
+      <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+       />
     </Container>
   );
 }
