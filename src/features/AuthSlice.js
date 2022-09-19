@@ -2,6 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import {collection, addDoc, Timestamp} from 'firebase/firestore';
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {db,Auth} from "../config/firebase-config";
+import useLocalStorage from "../Hooks/useLocalstorage";
 
 
 
@@ -18,7 +19,7 @@ export const createUser = createAsyncThunk("Auth/createUser", async (form)=>{
             lastName: form.lastName,
              email: form.email, 
             password: form.password,
-            role:"Admin",
+            role:"User",
             isAproved:false,
             created: Timestamp.now()
           })       
@@ -33,7 +34,7 @@ export const getUser = createAsyncThunk("Auth/getUser", async (form)=>{
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
-          // ...
+          useLocalStorage("authUser", user);
         })
     } catch (error) {
         console.log(error);
